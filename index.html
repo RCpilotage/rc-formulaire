@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>R&C Pilotage — Dossier de candidature</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E1117;--bg2:#161B25;--bg3:#1C2333;
+  --border:#2A3347;--blue:#3B9EE8;--blue-dim:#1A3A5C;
+  --text:#E8EDF5;--muted:#7A8BA8;--dimmed:#3D4F68;--white:#FFFFFF;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);padding:0 0 5rem;line-height:1.6;-webkit-text-size-adjust:100%;}
+
+/* NAV */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-badge{width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--blue);}
+.logo-text{font-size:13px;font-weight:500;}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
+.tag-pill{font-size:11px;color:var(--blue);border:1px solid var(--blue-dim);border-radius:20px;padding:4px 14px;background:rgba(59,158,232,.07);}
+
+/* HERO */
+.hero{padding:2.5rem 1.5rem 2rem;border-bottom:1px solid var(--border);max-width:800px;margin:0 auto;}
+.hero h1{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--white);line-height:1.2;margin-bottom:.75rem;}
+.hero h1 em{font-style:italic;color:var(--blue);font-weight:400;}
+.hero-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;}
+.hero-quote{border-left:2px solid var(--blue);padding:.75rem 1.25rem;background:var(--bg2);border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:var(--muted);display:inline-block;}
+
+/* PROGRESS */
+.progress-wrap{max-width:800px;margin:0 auto;padding:1.25rem 1.5rem .5rem;}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px;}
+.progress-track{height:2px;background:var(--border);border-radius:2px;}
+.progress-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .4s;width:0%;box-shadow:0 0 8px rgba(59,158,232,.4);}
+
+/* LAYOUT */
+.page{max-width:800px;margin:0 auto;padding:0 1rem;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1rem;}
+.card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.card-num{width:28px;height:28px;border-radius:6px;background:var(--blue-dim);border:1px solid rgba(59,158,232,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--blue);flex-shrink:0;margin-top:2px;}
+.card-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--white);}
+.card-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* GRIDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:.75rem;}
+
+/* FIELDS */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:.75rem;}
+.field:last-child{margin-bottom:0;}
+.flabel{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);}
+.req{color:var(--blue);}
+.hint{font-size:11px;color:var(--dimmed);margin-top:2px;line-height:1.5;}
+.counter{font-size:11px;color:var(--dimmed);text-align:right;margin-top:2px;}
+
+/* INPUTS natifs */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+select,
+textarea{
+  font-family:'Inter',sans-serif;
+  font-size:16px;
+  color:var(--text);
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:12px 14px;
+  width:100%;
+  outline:none;
+  -webkit-appearance:none;
+  appearance:none;
+  transition:border-color .2s;
+  display:block;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);}
+input::placeholder,textarea::placeholder{color:var(--dimmed);}
+textarea{resize:vertical;min-height:90px;line-height:1.65;}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A8BA8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:36px;
+  cursor:pointer;
+}
+select option{background:var(--bg3);color:var(--text);}
+
+/* CASES À COCHER — label natif pleine largeur */
+.check-list{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+.check-label{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;
+  background:var(--bg3);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  cursor:pointer;
+  transition:border-color .15s,background .15s;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.check-label:hover{border-color:rgba(59,158,232,.4);}
+.check-label input[type="checkbox"]{
+  width:22px;height:22px;
+  flex-shrink:0;
+  accent-color:var(--blue);
+  cursor:pointer;
+  border-radius:4px;
+}
+.check-label .cb-text{font-size:15px;color:var(--muted);flex:1;line-height:1.4;}
+.check-label.is-checked{border-color:var(--blue);background:#182d45;}
+.check-label.is-checked .cb-text{color:var(--blue);}
+.check-label.is-blocked{opacity:.3;pointer-events:none;}
+
+/* Régions en grille 2 col */
+.region-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;}
+
+/* Avantages en flex wrap */
+.avantage-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.avantage-wrap .check-label{flex:1;min-width:140px;}
+
+/* ALERTE */
+.alert-box{display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:.75rem;}
+.alert-box p{font-size:13px;font-weight:500;color:#F87171;margin-bottom:.5rem;}
+.alert-box ul{font-size:12.5px;color:#FCA5A5;padding-left:1.2rem;line-height:2.2;}
+
+/* BOUTONS */
+.submit-btn{
+  width:100%;padding:15px;
+  background:var(--blue);border:none;border-radius:8px;
+  color:#fff;font-size:15px;font-weight:500;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;display:block;margin-top:.5rem;
+  box-shadow:0 0 20px rgba(59,158,232,.25);
+  transition:opacity .2s,box-shadow .2s;
+}
+.submit-btn.off{opacity:.3;cursor:not-allowed;box-shadow:none;pointer-events:none;}
+.print-btn{
+  width:100%;padding:12px;background:transparent;
+  border:1px solid var(--border);border-radius:8px;
+  color:var(--muted);font-size:13px;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;display:block;margin-top:.5rem;
+  transition:all .2s;
+}
+.confirm-box{display:none;background:rgba(59,158,232,.08);border:1px solid rgba(59,158,232,.3);border-radius:10px;padding:1.25rem;margin-top:1rem;text-align:center;}
+.confirm-box p{font-size:14px;color:var(--blue);font-weight:500;}
+.confirm-box span{font-size:12px;color:var(--muted);display:block;margin-top:4px;}
+.footer-line{text-align:center;font-size:11px;color:var(--dimmed);margin-top:2rem;border-top:1px solid var(--border);padding-top:1.5rem;line-height:1.7;}
+.footer-line span{color:var(--blue);}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr;}
+  .region-grid{grid-template-columns:1fr 1fr;}
+  .avantage-wrap .check-label{min-width:100%;}
+  .hero h1{font-size:1.6rem;}
+  .hero,.progress-wrap,.page{padding-left:1rem;padding-right:1rem;}
+  .topbar{padding:.75rem 1rem;}
+}
+@media print{
+  .topbar{position:static;}
+  .submit-btn,.print-btn{display:none;}
+  body{background:white;color:#111;}
+  .card{border:1px solid #ddd;background:white;break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-badge">RC</div>
+    <div>
+      <div class="logo-text">R&amp;C Pilotage</div>
+      <div class="logo-sub">Conseil opérationnel · CHR</div>
+    </div>
+  </div>
+  <div class="tag-pill">Dossier confidentiel</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Votre profil.<br><em>En détail.</em></h1>
+  <p class="hero-sub">Ce dossier me permet de vous connaître avant notre échange — votre parcours, vos attentes, votre projet. Complétez-le à votre rythme. Vos réponses restent strictement confidentielles.</p>
+  <div class="hero-quote">Un bon recrutement, ça se construit. Ça ne se devine pas.</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-label"><span>Avancement du dossier</span><span id="pct">0%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+</div>
+
+<div class="page">
+
+  <!-- 01 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">01</div>
+      <div><div class="card-title">Informations personnelles</div><div class="card-sub">Votre profil en quelques mots</div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="flabel">Prénom <span class="req">*</span></label><input type="text" id="f-prenom" placeholder="Sophie" autocomplete="given-name"></div>
+      <div class="field"><label class="flabel">Nom <span class="req">*</span></label><input type="text" id="f-nom" placeholder="Martin" autocomplete="family-name"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="flabel">Téléphone <span class="req">*</span></label><input type="tel" id="f-tel" placeholder="06 XX XX XX XX" autocomplete="tel"></div>
+      <div class="field"><label class="flabel">Email <span class="req">*</span></label><input type="email" id="f-email" placeholder="sophie@email.com" autocomplete="email"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="flabel">Ville de résidence <span class="req">*</span></label><input type="text" id="f-ville" placeholder="Strasbourg" autocomplete="address-level2"></div>
+      <div class="field"><label class="flabel">Code postal</label><input type="text" id="f-cp" placeholder="67000" autocomplete="postal-code"></div>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">02</div>
+      <div><div class="card-title">Parcours professionnel</div><div class="card-sub">Votre expérience dans la restauration</div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="flabel">Poste actuel / dernier poste <span class="req">*</span></label><input type="text" id="f-poste" placeholder="Maître d'hôtel"></div>
+      <div class="field"><label class="flabel">Années d'expérience <span class="req">*</span></label>
+        <select id="f-exp">
+          <option value="">Sélectionner</option>
+          <option>Moins de 2 ans</option>
+          <option>2 à 5 ans</option>
+          <option>5 à 10 ans</option>
+          <option>10 à 15 ans</option>
+          <option>Plus de 15 ans</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="flabel">Types d'établissements fréquentés <span class="req">*</span></label>
+      <div class="check-list" id="etab-list">
+        <label class="check-label"><input type="checkbox" value="Gastronomique / étoilé"><span class="cb-text">Gastronomique / étoilé</span></label>
+        <label class="check-label"><input type="checkbox" value="Bistronomique / gastro décontracté"><span class="cb-text">Bistronomique / gastro décontracté</span></label>
+        <label class="check-label"><input type="checkbox" value="Brasserie traditionnelle"><span class="cb-text">Brasserie traditionnelle</span></label>
+        <label class="check-label"><input type="checkbox" value="Hôtel-restaurant"><span class="cb-text">Hôtel-restaurant</span></label>
+        <label class="check-label"><input type="checkbox" value="Traiteur / événementiel"><span class="cb-text">Traiteur / événementiel</span></label>
+        <label class="check-label"><input type="checkbox" value="Restauration rapide / food service"><span class="cb-text">Restauration rapide / food service</span></label>
+        <label class="check-label"><input type="checkbox" value="Collectivité / restauration sociale"><span class="cb-text">Collectivité / restauration sociale</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label class="flabel">Parcours & responsabilités <span class="req">*</span></label>
+      <textarea id="f-parcours" placeholder="Ex. 6 ans en restaurant gastronomique, évolution de chef de rang à maître d'hôtel…" maxlength="500"></textarea>
+      <div class="counter" id="c-parcours">0 / 500 caractères</div>
+    </div>
+    <div class="field">
+      <label class="flabel">Formation(s) / diplôme(s)</label>
+      <input type="text" id="f-formation" placeholder="BTS Hôtellerie-Restauration, CAP service…">
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">03</div>
+      <div><div class="card-title">Rémunération</div><div class="card-sub">Pour adapter les propositions à votre situation</div></div>
+    </div>
+    <div class="grid3">
+      <div class="field"><label class="flabel">Salaire actuel € net/mois <span class="req">*</span></label><input type="number" id="f-sal-actuel" placeholder="1900" min="500" max="20000" inputmode="numeric"></div>
+      <div class="field"><label class="flabel">Prétention min. € net/mois <span class="req">*</span></label><input type="number" id="f-sal-min" placeholder="2100" min="500" max="20000" inputmode="numeric"></div>
+      <div class="field"><label class="flabel">Prétention max. € net/mois <span class="req">*</span></label><input type="number" id="f-sal-max" placeholder="2500" min="500" max="20000" inputmode="numeric"></div>
+    </div>
+    <div class="field">
+      <label class="flabel">Type de contrat <span class="req">*</span></label>
+      <select id="f-contrat">
+        <option value="">Sélectionner</option>
+        <option>CDI temps plein</option>
+        <option>CDI temps partiel</option>
+        <option>CDD</option>
+        <option>Saisonnier</option>
+        <option>Ouvert à tout</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="flabel">Avantages souhaités</label>
+      <div class="avantage-wrap" id="avantage-list">
+        <label class="check-label"><input type="checkbox" value="Logement"><span class="cb-text">Logement</span></label>
+        <label class="check-label"><input type="checkbox" value="Repas"><span class="cb-text">Repas</span></label>
+        <label class="check-label"><input type="checkbox" value="Véhicule de fonction"><span class="cb-text">Véhicule de fonction</span></label>
+        <label class="check-label"><input type="checkbox" value="Primes / bonus"><span class="cb-text">Primes / bonus</span></label>
+        <label class="check-label"><input type="checkbox" value="Formation continue"><span class="cb-text">Formation continue</span></label>
+        <label class="check-label"><input type="checkbox" value="Horaires aménagés"><span class="cb-text">Horaires aménagés</span></label>
+        <label class="check-label"><input type="checkbox" value="Week-ends libres"><span class="cb-text">Week-ends libres</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">04</div>
+      <div><div class="card-title">Mobilité géographique</div><div class="card-sub">Les zones où vous souhaitez évoluer</div></div>
+    </div>
+    <div class="field">
+      <label class="flabel">Rayon de mobilité <span class="req">*</span></label>
+      <select id="f-rayon">
+        <option value="">Sélectionner</option>
+        <option>Locale (moins de 30 km)</option>
+        <option>Régionale (moins de 100 km)</option>
+        <option>Nationale</option>
+        <option>Internationale</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="flabel">Régions / zones prioritaires <span class="req">*</span></label>
+      <div class="region-grid" id="region-list">
+        <label class="check-label"><input type="checkbox" value="Île-de-France"><span class="cb-text">Île-de-France</span></label>
+        <label class="check-label"><input type="checkbox" value="Auvergne-Rhône-Alpes"><span class="cb-text">Auvergne-Rhône-Alpes</span></label>
+        <label class="check-label"><input type="checkbox" value="Provence-PACA"><span class="cb-text">Provence-PACA</span></label>
+        <label class="check-label"><input type="checkbox" value="Occitanie"><span class="cb-text">Occitanie</span></label>
+        <label class="check-label"><input type="checkbox" value="Bretagne"><span class="cb-text">Bretagne</span></label>
+        <label class="check-label"><input type="checkbox" value="Normandie"><span class="cb-text">Normandie</span></label>
+        <label class="check-label"><input type="checkbox" value="Grand Est"><span class="cb-text">Grand Est</span></label>
+        <label class="check-label"><input type="checkbox" value="Hauts-de-France"><span class="cb-text">Hauts-de-France</span></label>
+        <label class="check-label"><input type="checkbox" value="Pays de la Loire"><span class="cb-text">Pays de la Loire</span></label>
+        <label class="check-label"><input type="checkbox" value="Nouvelle-Aquitaine"><span class="cb-text">Nouvelle-Aquitaine</span></label>
+        <label class="check-label"><input type="checkbox" value="Centre-Val de Loire"><span class="cb-text">Centre-Val de Loire</span></label>
+        <label class="check-label"><input type="checkbox" value="Bourgogne-Franche-Comté"><span class="cb-text">Bourgogne-Franche-Comté</span></label>
+        <label class="check-label"><input type="checkbox" value="Corse"><span class="cb-text">Corse</span></label>
+        <label class="check-label"><input type="checkbox" value="DOM-TOM"><span class="cb-text">DOM-TOM</span></label>
+        <label class="check-label"><input type="checkbox" value="International"><span class="cb-text">International</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label class="flabel">Contraintes ou précisions</label>
+      <textarea id="f-mobilite" placeholder="Propriétaire, contraintes familiales, déplacements ponctuels acceptés…"></textarea>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">05</div>
+      <div><div class="card-title">Projet & motivations</div><div class="card-sub">Ce que vous recherchez vraiment</div></div>
+    </div>
+    <div class="field">
+      <label class="flabel">Pourquoi êtes-vous en recherche ? <span class="req">*</span></label>
+      <textarea id="f-motiv" placeholder="Fin de contrat, recherche d'évolution, nouveau défi…" maxlength="300"></textarea>
+      <div class="counter" id="c-motiv">0 / 300 caractères</div>
+    </div>
+    <div class="field">
+      <label class="flabel">Poste / mission idéal(e) <span class="req">*</span></label>
+      <textarea id="f-poste-ideal" placeholder="Directeur de salle, responsable opérationnel, poste à responsabilité…"></textarea>
+    </div>
+    <div class="field">
+      <label class="flabel">Vos 3 forces principales <span class="req">*</span></label>
+      <div class="counter" id="c-forces" style="text-align:left;margin-bottom:6px;color:var(--blue);font-size:12px;">0 / 3 sélectionnées</div>
+      <div class="check-list" id="force-list">
+        <label class="check-label"><input type="checkbox" value="Management d'équipe"><span class="cb-text">Management d'équipe</span></label>
+        <label class="check-label"><input type="checkbox" value="Relation client"><span class="cb-text">Relation client</span></label>
+        <label class="check-label"><input type="checkbox" value="Organisation et process"><span class="cb-text">Organisation et process</span></label>
+        <label class="check-label"><input type="checkbox" value="Connaissance produit"><span class="cb-text">Connaissance produit</span></label>
+        <label class="check-label"><input type="checkbox" value="Gestion du stress"><span class="cb-text">Gestion du stress</span></label>
+        <label class="check-label"><input type="checkbox" value="Formation et transmission"><span class="cb-text">Formation et transmission</span></label>
+        <label class="check-label"><input type="checkbox" value="Polyvalence"><span class="cb-text">Polyvalence</span></label>
+        <label class="check-label"><input type="checkbox" value="Rigueur"><span class="cb-text">Rigueur</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label class="flabel">Informations complémentaires</label>
+      <textarea id="f-autre" placeholder="Projet en cours, formation, ambitions à moyen terme…"></textarea>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">06</div>
+      <div><div class="card-title">Disponibilité</div><div class="card-sub">Quand pouvez-vous commencer ?</div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="flabel">Disponibilité <span class="req">*</span></label>
+        <select id="f-dispo">
+          <option value="">Sélectionner</option>
+          <option>Immédiate</option>
+          <option>Sous 2 semaines</option>
+          <option>Sous 1 mois</option>
+          <option>Sous 3 mois</option>
+          <option>À préciser</option>
+        </select>
+      </div>
+      <div class="field"><label class="flabel">Précisions</label>
+        <input type="text" id="f-dispo-notes" placeholder="Préavis en cours, disponible à partir du…">
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-box" id="alert-box">
+    <p>⚠ Dossier incomplet — champs manquants :</p>
+    <ul id="alert-list"></ul>
+  </div>
+
+  <button class="submit-btn off" id="submit-btn" onclick="exportFiche()">↓ Télécharger mon dossier complété</button>
+  <button class="print-btn" onclick="window.print()">⎙ Imprimer / Enregistrer en PDF</button>
+
+  <div class="confirm-box" id="confirm-box">
+    <p>✓ Dossier téléchargé avec succès</p>
+    <span>Transmettez le fichier à votre interlocuteur R&amp;C Pilotage — merci pour votre temps.</span>
+  </div>
+
+  <div class="footer-line">
+    <span>R&amp;C Pilotage</span> · Conseil opérationnel CHR · contact@rcpilotage.fr<br>
+    Document confidentiel — vos informations ne sont partagées qu'avec votre interlocuteur direct.
+  </div>
+</div>
+
+<script>
+// ── Utilitaires ──────────────────────────────────────────
+function val(id){
+  var el=document.getElementById(id);
+  return el?el.value.trim():'';
+}
+function getChecked(listId){
+  var list=document.getElementById(listId);
+  if(!list) return [];
+  return Array.from(list.querySelectorAll('input[type="checkbox"]:checked')).map(function(cb){return cb.value;});
+}
+
+// ── Style case cochée ────────────────────────────────────
+function syncStyle(cb){
+  var lbl=cb.closest('label');
+  if(!lbl) return;
+  lbl.classList.toggle('is-checked', cb.checked);
+}
+
+// ── Forces max 3 ─────────────────────────────────────────
+function handleForce(cb){
+  syncStyle(cb);
+  var all=Array.from(document.querySelectorAll('#force-list input[type="checkbox"]'));
+  var checked=all.filter(function(c){return c.checked;});
+  var count=checked.length;
+  // Si on dépasse 3, décocher le dernier
+  if(count>3){
+    cb.checked=false;
+    syncStyle(cb);
+    count=3;
+  }
+  document.getElementById('c-forces').textContent=count+' / 3 sélectionnées';
+  // Bloquer les non-cochées si 3 atteint
+  all.forEach(function(c){
+    var lbl=c.closest('label');
+    if(!lbl) return;
+    if(count>=3 && !c.checked) lbl.classList.add('is-blocked');
+    else lbl.classList.remove('is-blocked');
+  });
+  prog();
+}
+
+// ── Validation ───────────────────────────────────────────
+function getMissing(){
+  var m=[];
+  [{id:'f-prenom',label:'Prénom'},
+   {id:'f-nom',label:'Nom'},
+   {id:'f-tel',label:'Téléphone'},
+   {id:'f-email',label:'Email'},
+   {id:'f-ville',label:'Ville de résidence'},
+   {id:'f-poste',label:'Poste actuel'},
+   {id:'f-exp',label:"Années d'expérience"},
+   {id:'f-parcours',label:'Parcours & responsabilités'},
+   {id:'f-sal-actuel',label:'Salaire actuel'},
+   {id:'f-sal-min',label:'Prétention minimale'},
+   {id:'f-sal-max',label:'Prétention maximale'},
+   {id:'f-contrat',label:'Type de contrat'},
+   {id:'f-rayon',label:'Rayon de mobilité'},
+   {id:'f-motiv',label:'Raison de la recherche'},
+   {id:'f-poste-ideal',label:'Poste idéal'},
+   {id:'f-dispo',label:'Disponibilité'}
+  ].forEach(function(f){if(!val(f.id))m.push(f.label);});
+  if(getChecked('etab-list').length===0) m.push("Type d'établissement (au moins 1)");
+  if(getChecked('region-list').length===0) m.push('Région(s) prioritaire(s)');
+  var fc=getChecked('force-list').length;
+  if(fc<3) m.push('Forces principales ('+fc+'/3)');
+  return m;
+}
+
+// ── Progression ──────────────────────────────────────────
+function prog(){
+  var missing=getMissing();
+  var pct=Math.min(100,Math.round((19-missing.length)/19*100));
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('pct').textContent=pct+'%';
+  var btn=document.getElementById('submit-btn');
+  if(missing.length===0) btn.classList.remove('off');
+  else btn.classList.add('off');
+}
+
+// ── Export TXT ───────────────────────────────────────────
+function exportFiche(){
+  var missing=getMissing();
+  var ab=document.getElementById('alert-box');
+  if(missing.length>0){
+    document.getElementById('alert-list').innerHTML=missing.map(function(m){return'<li>'+m+'</li>';}).join('');
+    ab.style.display='block';
+    ab.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  ab.style.display='none';
+  var p=val('f-prenom'), n=val('f-nom');
+  var S='──────────────────────────────────────────────────────';
+  var D='══════════════════════════════════════════════════════';
+  var lines=[
+    'R&C PILOTAGE — DOSSIER DE CANDIDATURE',
+    'Conseil opérationnel · CHR',D,'',
+    'Complété le : '+new Date().toLocaleDateString('fr-FR'),
+    '',S,'01. INFORMATIONS PERSONNELLES',S,
+    'Nom complet   : '+p+' '+n,
+    'Téléphone     : '+val('f-tel'),
+    'Email         : '+val('f-email'),
+    'Résidence     : '+val('f-ville')+(val('f-cp')?' '+val('f-cp'):''),
+    '',S,'02. PARCOURS PROFESSIONNEL',S,
+    'Poste actuel  : '+val('f-poste'),
+    "Expérience    : "+val('f-exp'),
+    'Établissements: '+getChecked('etab-list').join(', '),
+    'Formation(s)  : '+(val('f-formation')||'—'),
+    '','Parcours & responsabilités :',val('f-parcours'),
+    '',S,'03. RÉMUNÉRATION',S,
+    'Salaire actuel      : '+val('f-sal-actuel')+' € net/mois',
+    'Prétention minimale : '+val('f-sal-min')+' € net/mois',
+    'Prétention maximale : '+val('f-sal-max')+' € net/mois',
+    'Type de contrat     : '+val('f-contrat'),
+    'Avantages souhaités : '+(getChecked('avantage-list').join(', ')||'—'),
+    '',S,'04. MOBILITÉ GÉOGRAPHIQUE',S,
+    'Rayon de mobilité   : '+val('f-rayon'),
+    'Régions prioritaires: '+getChecked('region-list').join(', '),
+    'Précisions          : '+(val('f-mobilite')||'—'),
+    '',S,'05. PROJET & MOTIVATIONS',S,
+    'Raison de la recherche :',val('f-motiv'),'',
+    'Poste / mission idéal(e) :',val('f-poste-ideal'),'',
+    'Forces principales  : '+getChecked('force-list').join(', '),'',
+    'Informations complémentaires :',(val('f-autre')||'—'),
+    '',S,'06. DISPONIBILITÉ',S,
+    'Disponibilité : '+val('f-dispo'),
+    'Précisions    : '+(val('f-dispo-notes')||'—'),
+    '',D,
+    'R&C Pilotage · Conseil opérationnel CHR',
+    'Document confidentiel — usage recrutement uniquement'
+  ];
+  var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=('dossier_'+p+'_'+n+'_'+new Date().toISOString().slice(0,10)+'.txt').replace(/\s+/g,'_');
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  document.getElementById('confirm-box').style.display='block';
+  document.getElementById('confirm-box').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ── Init ─────────────────────────────────────────────────
+(function init(){
+
+  // Inputs texte / number
+  ['f-prenom','f-nom','f-tel','f-email','f-ville','f-cp',
+   'f-poste','f-sal-actuel','f-sal-min','f-sal-max','f-dispo-notes','f-formation'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.addEventListener('input',prog);el.addEventListener('change',prog);}
+  });
+
+  // Textarea parcours
+  var tp=document.getElementById('f-parcours');
+  if(tp){tp.addEventListener('input',function(){
+    document.getElementById('c-parcours').textContent=this.value.length+' / 500 caractères';prog();
+  });}
+
+  // Textarea motiv
+  var tm=document.getElementById('f-motiv');
+  if(tm){tm.addEventListener('input',function(){
+    document.getElementById('c-motiv').textContent=this.value.length+' / 300 caractères';prog();
+  });}
+
+  // Textareas simples
+  ['f-poste-ideal','f-mobilite','f-autre'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.addEventListener('input',prog);}
+  });
+
+  // Selects
+  ['f-exp','f-contrat','f-rayon','f-dispo'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.addEventListener('change',prog);}
+  });
+
+  // Checkboxes établissements
+  document.querySelectorAll('#etab-list input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change',function(){syncStyle(this);prog();});
+  });
+
+  // Checkboxes régions
+  document.querySelectorAll('#region-list input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change',function(){syncStyle(this);prog();});
+  });
+
+  // Checkboxes avantages
+  document.querySelectorAll('#avantage-list input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change',function(){syncStyle(this);prog();});
+  });
+
+  // Checkboxes forces
+  document.querySelectorAll('#force-list input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change',function(){handleForce(this);});
+  });
+
+  prog();
+})();
+</script>
+</body>
+</html>
