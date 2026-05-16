@@ -402,12 +402,17 @@ select option{background:var(--bg3);color:var(--text);}
     <ul id="alert-list"></ul>
   </div>
 
-  <button class="submit-btn off" id="submit-btn" onclick="exportFiche()">↓ Télécharger mon dossier complété</button>
+  <button class="submit-btn off" id="submit-btn" onclick="envoyerDossier()">✉ Envoyer mon dossier</button>
   <button class="print-btn" onclick="window.print()">⎙ Imprimer / Enregistrer en PDF</button>
 
   <div class="confirm-box" id="confirm-box">
-    <p>✓ Dossier téléchargé avec succès</p>
-    <span>Transmettez le fichier à votre interlocuteur R&amp;C Pilotage — merci pour votre temps.</span>
+    <p>✓ Dossier envoyé avec succès</p>
+    <span>Votre dossier a été transmis à R&amp;C Pilotage — vous serez recontacté rapidement. Merci.</span>
+  </div>
+
+  <div class="confirm-box" id="error-box" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.35);">
+    <p style="color:#F87171;">✕ Erreur d'envoi</p>
+    <span style="color:#FCA5A5;">Une erreur est survenue. Contactez directement contact@rcpilotage.fr</span>
   </div>
 
   <div class="footer-line">
@@ -496,21 +501,12 @@ function prog(){
   else btn.classList.add('off');
 }
 
-// ── Export TXT ───────────────────────────────────────────
-function exportFiche(){
-  var missing=getMissing();
-  var ab=document.getElementById('alert-box');
-  if(missing.length>0){
-    document.getElementById('alert-list').innerHTML=missing.map(function(m){return'<li>'+m+'</li>';}).join('');
-    ab.style.display='block';
-    ab.scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
-  ab.style.display='none';
+// ── Construire le contenu du dossier ─────────────────────
+function buildDossier(){
   var p=val('f-prenom'), n=val('f-nom');
   var S='──────────────────────────────────────────────────────';
   var D='══════════════════════════════════════════════════════';
-  var lines=[
+  return [
     'R&C PILOTAGE — DOSSIER DE CANDIDATURE',
     'Conseil opérationnel · CHR',D,'',
     'Complété le : '+new Date().toLocaleDateString('fr-FR'),
@@ -521,7 +517,7 @@ function exportFiche(){
     'Résidence     : '+val('f-ville')+(val('f-cp')?' '+val('f-cp'):''),
     '',S,'02. PARCOURS PROFESSIONNEL',S,
     'Poste actuel  : '+val('f-poste'),
-    "Expérience    : "+val('f-exp'),
+    'Expérience    : '+val('f-exp'),
     'Établissements: '+getChecked('etab-list').join(', '),
     'Formation(s)  : '+(val('f-formation')||'—'),
     '','Parcours & responsabilités :',val('f-parcours'),
@@ -546,15 +542,58 @@ function exportFiche(){
     '',D,
     'R&C Pilotage · Conseil opérationnel CHR',
     'Document confidentiel — usage recrutement uniquement'
-  ];
-  var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
-  var a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=('dossier_'+p+'_'+n+'_'+new Date().toISOString().slice(0,10)+'.txt').replace(/\s+/g,'_');
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  URL.revokeObjectURL(a.href);
-  document.getElementById('confirm-box').style.display='block';
-  document.getElementById('confirm-box').scrollIntoView({behavior:'smooth',block:'center'});
+  ].join('\n');
+}
+
+// ── Envoi via Web3Forms ───────────────────────────────────
+function envoyerDossier(){
+  var missing=getMissing();
+  var ab=document.getElementById('alert-box');
+  if(missing.length>0){
+    document.getElementById('alert-list').innerHTML=missing.map(function(m){return'<li>'+m+'</li>';}).join('');
+    ab.style.display='block';
+    ab.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  ab.style.display='none';
+
+  var btn=document.getElementById('submit-btn');
+  btn.textContent='Envoi en cours…';
+  btn.classList.add('off');
+
+  var p=val('f-prenom'), n=val('f-nom');
+  var dossier=buildDossier();
+
+  var data=new FormData();
+  data.append('access_key','a960d6f8-1560-480f-bc2a-29e6d48c2d7f');
+  data.append('subject','[R&C Formulaire] Dossier candidature — '+p+' '+n);
+  data.append('from_name', p+' '+n);
+  data.append('replyto', val('f-email'));
+  data.append('message', dossier);
+
+  fetch('https://api.web3forms.com/submit',{
+    method:'POST',
+    body:data
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.success){
+      document.getElementById('confirm-box').style.display='block';
+      document.getElementById('confirm-box').scrollIntoView({behavior:'smooth',block:'center'});
+      btn.textContent='✉ Dossier envoyé';
+    } else {
+      document.getElementById('error-box').style.display='block';
+      document.getElementById('error-box').scrollIntoView({behavior:'smooth',block:'center'});
+      btn.textContent='✉ Envoyer mon dossier';
+      btn.classList.remove('off');
+    }
+  })
+  .catch(function(){
+    document.getElementById('error-box').style.display='block';
+    document.getElementById('error-box').scrollIntoView({behavior:'smooth',block:'center'});
+    btn.textContent='✉ Envoyer mon dossier';
+    btn.classList.remove('off');
+  });
 }
 
 // ── Init ─────────────────────────────────────────────────
